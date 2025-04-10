@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este proyecto trata de un panel administrativo para poder gestionar a las organizaciones y usuarios que pertenecen a cada uno de las organizaciones.
+Este proyecto trata de un panel administrativo para poder gestionar a las organizaciones y usuarios que pertenecen a cada una de esas organizaciones.
 
 ## Flujo para agregar usuario a una organización
 

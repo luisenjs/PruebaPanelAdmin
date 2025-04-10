@@ -1,5 +1,5 @@
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { ArrowDownUp, CircleUser, Search } from "lucide-react";
+import { createColumnHelper, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import { ArrowDownUp, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CircleUser, Search } from "lucide-react";
 import { useState } from "react";
 import { NewUserForm } from "../components/newuserform";
 
@@ -28,11 +28,11 @@ const data = [
     },
     {
         id: "2",
-        name: "FME Organizations Ltd"
+        name: "Organization two"
     },
     {
         id: "3",
-        name: "FME Organizations Ltd"
+        name: "Another one"
     },
     {
         id: "4",
@@ -40,10 +40,58 @@ const data = [
     },
     {
         id: "5",
-        name: "FME Organizations Ltd"
+        name: "Another one"
     },
     {
         id: "6",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "7",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "8",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "9",
+        name: "Another one"
+    },
+    {
+        id: "10",
+        name: "Organization two"
+    },
+    {
+        id: "11",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "12",
+        name: "Organization two"
+    },
+    {
+        id: "13",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "14",
+        name: "FME Organizations Ltd"
+    },
+    {
+        id: "15",
+        name: "Another one"
+    },
+    {
+        id: "16",
+        name: "Another one"
+    },
+    {
+        id: "17",
+        name: "Organization two"
+    },
+    {
+        id: "18",
         name: "FME Organizations Ltd"
     }
 ]
@@ -52,10 +100,23 @@ export function Organizations() {
 
     const [isNewUserFormOpen, setIsNewUserFormOpen] = useState(false);
 
+    const [buscador, setbuscador] = useState("");
+
     const table = useReactTable({
         data,
         columns,
-        getCoreRowModel: getCoreRowModel()
+        getCoreRowModel: getCoreRowModel(),
+        state: {
+            globalFilter: buscador
+        },
+        initialState: {
+            pagination: {
+                pageSize: 5,
+            },
+        },
+        onGlobalFilterChange: setbuscador,
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel()
     });
 
     return (
@@ -65,13 +126,13 @@ export function Organizations() {
                     <h2 className="font-semibold">Organizations Listing</h2>
                     <span className="text-gray-400"><span className="text-[#494949]">Admin/</span>Organzations List</span>
                 </div>
-                <div className="px-10">
+                <div className="px-10 h-11/12">
                     <div className="w-full flex flex-col gap-6 shadow-2xl rounded-2xl">
                         <div className="flex justify-between px-3">
                             <h3 className="font-bold">Organizations</h3>
                             <div className="relative flex w-2/5 items-center">
                                 <Search className="absolute z-10 left-2" />
-                                <input className="absolute w-full bg-gray-200 rounded-xl py-1 pl-10" type="text" placeholder="Search Organizations here" />
+                                <input className="absolute w-full bg-gray-200 rounded-xl py-1 pl-10" type="text" placeholder="Search Organizations here" onChange={(e) => { setbuscador(e.target.value) }} />
                             </div>
                         </div>
                         <table className="w-full">
@@ -111,6 +172,21 @@ export function Organizations() {
                                 }
                             </tbody>
                         </table>
+                    </div>
+                    <div className='flex gap-3 items-center justify-end p-3'>
+                        <button onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()} className={`bg-gray-200 p-2 rounded-lg ${!table.getCanPreviousPage() && 'cursor-not-allowed opacity-60'}`}>
+                            <ChevronsLeft className='size-6 text-gray-400' />
+                        </button>
+                        <button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} className={`bg-gray-200 p-2 rounded-lg ${!table.getCanPreviousPage() && 'cursor-not-allowed opacity-60'}`}>
+                            <ChevronLeft className='size-6 text-gray-400' />
+                        </button>
+                        <span> Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}</span>
+                        <button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} className={`bg-gray-200 p-2 rounded-lg ${!table.getCanNextPage() && 'cursor-not-allowed opacity-60'}`}>
+                            <ChevronRight className='size-6 text-gray-400' />
+                        </button>
+                        <button onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()} className={`bg-gray-200 p-2 rounded-lg ${!table.getCanNextPage() && 'cursor-not-allowed opacity-60'}`}>
+                            <ChevronsRight className='size-6 text-gray-400' />
+                        </button>
                     </div>
                 </div>
             </div>
